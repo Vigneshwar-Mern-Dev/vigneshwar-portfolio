@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vigneshwar S — Portfolio
 
-## Getting Started
+> Personal portfolio of **Vigneshwar S**, a Full-Stack Developer building scalable SaaS platforms, CRM systems, automation workflows and AI-assisted applications.
 
-First, run the development server:
+**Live:** [vigneshwar.dev](https://vigneshwar.dev) &nbsp;|&nbsp; **GitHub:** [@Vigneshwar-Mern-Dev](https://github.com/Vigneshwar-Mern-Dev)
+
+---
+
+## ✨ Features
+
+- **Interactive 3D Tech Orb** — WebGL constellation built with Three.js & React Three Fiber, responds to cursor movement
+- **Comet cursor trail** — 12-dot animated trail that follows the mouse
+- **Cinematic intro** — GSAP-animated developer profile reveal on first load
+- **Project showcase** — Full-stack project cards with live demo & GitHub links
+- **Skills / Capabilities section** — Animated tech stack display
+- **Experience timeline** — Professional history layout
+- **Contact section** — Direct reach-out form
+- **Fully responsive** — Mobile-first, works across all screen sizes
+- **Accessible** — Semantic HTML, skip-link, ARIA labels, `motion-reduce` support
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| 3D Graphics | Three.js + React Three Fiber + Drei |
+| Animations | GSAP |
+| Smooth Scroll | Lenis |
+| Fonts | Geist, Instrument Serif (Google Fonts) |
+| Icons | Lucide React |
+| Deployment | Vercel |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js `v18+`
+- npm / pnpm / yarn
+
+### Installation
 
 ```bash
+# Clone the repo
+git clone https://github.com/Vigneshwar-Mern-Dev/vigneshwar-portfolio.git
+cd vigneshwar-portfolio
+
+# Install dependencies
+npm install
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure
 
-## Learn More
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout (fonts, metadata, cursor)
+│   ├── page.tsx            # Home page
+│   └── globals.css         # Global styles & design tokens
+├── components/
+│   ├── canvas/
+│   │   └── tech-orb.tsx    # Interactive 3D orb (Three.js)
+│   ├── intro/
+│   │   └── cinematic-intro.tsx
+│   ├── layout/
+│   │   ├── navigation.tsx
+│   │   └── footer.tsx
+│   ├── sections/
+│   │   ├── hero.tsx
+│   │   ├── projects-section.tsx
+│   │   ├── capabilities-section.tsx
+│   │   ├── experience-section.tsx
+│   │   ├── about-section.tsx
+│   │   └── contact-section.tsx
+│   └── ui/
+│       ├── cursor-glow.tsx  # Comet cursor trail
+│       └── icons.tsx
+├── data/
+│   ├── personal.ts          # Name, bio, links, availability
+│   └── projects.ts          # Project list
+└── types/
+    └── project.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Customisation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All personal data lives in `src/data/`:
 
-## Deploy on Vercel
+**`personal.ts`** — Update your name, bio, availability status, resume URL and social links.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**`projects.ts`** — Add / edit projects. Each project accepts:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```ts
+{
+  id: string
+  slug: string
+  title: string
+  category: string
+  shortDescription: string
+  fullDescription: string
+  technologies: string[]
+  image: string          // Place images in /public/projects/
+  liveUrl: string
+  githubUrl: string
+  featured: boolean
+  order: number
+}
+```
+
+---
+
+## ☁️ Deployment — **Vercel (Recommended)**
+
+Vercel is built by the Next.js team. Zero-config deployment, free tier, global CDN.
+
+### Steps
+
+1. Push your code to GitHub (already done ✅)
+2. Go to [vercel.com](https://vercel.com) → **Sign up / Log in** with GitHub
+3. Click **"Add New Project"** → Import `vigneshwar-portfolio`
+4. Vercel auto-detects Next.js — click **"Deploy"**
+5. Done — live in ~60 seconds 🚀
+
+### Custom Domain
+
+In Vercel dashboard → **Project → Settings → Domains** → add your domain (e.g. `vigneshwar.dev`).
+
+> **Why Vercel?**
+> - Native Next.js support (no config needed)
+> - Automatic preview deployments on every push
+> - Free SSL certificate
+> - Global edge network
+> - Free hobby plan handles personal portfolios easily
+
+---
+
+## 📸 Projects
+
+| # | Project | Stack |
+|---|---|---|
+| 01 | WhatsApp CRM & AI Automation Suite | Next.js, Node.js, MongoDB, WhatsApp API |
+| 02 | AI Customer Support System | React, Node.js, Express, MongoDB |
+| 03 | CASEIOS E-Commerce Platform | Next.js, Prisma, TypeScript, Razorpay |
+| 04 | MAKT Official Website | React 19, Vite, Tailwind CSS v4, Framer Motion |
+| 05 | ATM Franchise Platform | Next.js, TypeScript, Tailwind CSS |
+
+---
+
+## 📄 License
+
+MIT © [Vigneshwar S](https://github.com/Vigneshwar-Mern-Dev)
