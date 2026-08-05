@@ -42,7 +42,6 @@ export function ExperienceSection() {
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className="rounded-full border border-[#A876FF]/20 bg-[#7C3CFF]/[0.08] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#A876FF]">{job.type}</span>
-                    <span className="text-[0.65rem] uppercase tracking-[0.12em] text-[#777088]">{job.duration} - {job.period}</span>
                   </div>
                 </div>
 
@@ -77,7 +76,6 @@ export function ExperienceSection() {
                 <p className="mt-1 text-[0.65rem] uppercase tracking-[0.12em] text-[#555068]">{edu.location}</p>
                 <div className="my-5 h-px bg-white/[0.07]" />
                 <p className="text-xs leading-6 text-[#8F88A5]">{edu.description}</p>
-                <p className="mt-4 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#444057]">{edu.period}</p>
               </article>
             ))}
 
