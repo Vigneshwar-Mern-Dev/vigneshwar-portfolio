@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { RobotAssistant } from "@/components/canvas/robot-assistant";
+import { TechOrb } from "@/components/canvas/tech-orb";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -52,10 +52,11 @@ export function Hero() {
         bg-[linear-gradient(180deg,#070414_0%,transparent_18%,transparent_78%,#070414_100%)]"
       />
 
-      
+      {/* Full-screen interactive Tech Orb background */}
+      <TechOrb />
 
       <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[1440px] flex-col px-5 pb-6 pt-28 sm:px-8 sm:pt-32 lg:px-12 xl:px-16">
-        <div className="grid flex-1 items-center gap-8 lg:grid-cols-[minmax(0,1.12fr)_minmax(420px,0.88fr)] xl:gap-14">
+        <div className="flex flex-1 items-center">
           {/* Hero content */}
           <div className="relative z-20 max-w-[680px]">
             <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.68rem] font-semibold uppercase tracking-[0.16em]">
@@ -160,9 +161,6 @@ export function Hero() {
               </span>
             </a>
           </div>
-
-          {/* Interactive Spline robot */}
-          <RobotAssistant />
         </div>
 
         {/* Mobile project previews */}

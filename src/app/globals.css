@@ -14,8 +14,8 @@
   --page: min(1380px, calc(100vw - 64px));
 }
 
-* { box-sizing: border-box; }
-html { background: var(--ink); scroll-behavior: smooth; scrollbar-color: #4b3478 var(--ink); }
+*, *::before, *::after { box-sizing: border-box; cursor: none; }
+html { background: var(--ink); scroll-behavior: smooth; scrollbar-color: #4b3478 var(--ink); cursor: none; }
 body {
   margin: 0;
   background: var(--ink);
