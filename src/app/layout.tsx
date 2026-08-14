@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     title,
     description,
     siteName: "Vigneshwar S",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Vigneshwar S — Full-Stack Developer Portfolio" }],
   },
   twitter: {
     card: "summary_large_image",

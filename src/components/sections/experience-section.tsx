@@ -40,8 +40,9 @@ export function ExperienceSection() {
                     <h3 className="text-xl font-semibold tracking-[-0.03em] text-[#F7F5FF] sm:text-2xl">{job.role}</h3>
                     <p className="mt-1 text-sm font-medium text-[#A876FF]">{job.company}</p>
                   </div>
-                  <div className="flex flex-col items-end gap-1 shrink-0">
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
                     <span className="rounded-full border border-[#A876FF]/20 bg-[#7C3CFF]/[0.08] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#A876FF]">{job.type}</span>
+                    <span className="text-[0.65rem] font-medium tracking-[0.06em] text-[#AAA5BD]">{job.period} · {job.duration}</span>
                   </div>
                 </div>
 
@@ -68,16 +69,19 @@ export function ExperienceSection() {
           <div>
             <p className="mb-10 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#72E7FF]">Education</p>
 
-            {education.map((edu) => (
+            {education.map((edu) => {
+              const degreeAbbr = edu.degree.split(" ")[0];
+              return (
               <article key={edu.id} className="rounded-2xl border border-white/[0.08] bg-[#0D0921]/60 p-7 backdrop-blur-sm">
-                <div aria-hidden="true" className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-[#72E7FF]/20 bg-[#72E7FF]/5 text-[0.6rem] font-bold tracking-widest text-[#72E7FF]">BSc</div>
+                <div aria-hidden="true" className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-[#72E7FF]/20 bg-[#72E7FF]/5 text-[0.6rem] font-bold tracking-widest text-[#72E7FF]">{degreeAbbr}</div>
                 <h3 className="text-lg font-semibold tracking-[-0.03em] text-[#F7F5FF] leading-snug">{edu.degree}</h3>
                 <p className="mt-2 text-sm font-medium text-[#72E7FF]">{edu.institution}</p>
-                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.12em] text-[#555068]">{edu.location}</p>
+                <p className="mt-1 text-[0.65rem] uppercase tracking-[0.12em] text-[#555068]">{edu.location} · {edu.period}</p>
                 <div className="my-5 h-px bg-white/[0.07]" />
                 <p className="text-xs leading-6 text-[#8F88A5]">{edu.description}</p>
               </article>
-            ))}
+              );
+            })}
 
             <div className="mt-6 flex items-center gap-3 rounded-2xl border border-[#72E7FF]/15 bg-[#72E7FF]/5 px-5 py-4">
               <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-[#72E7FF] shadow-[0_0_12px_rgba(114,231,255,0.9)]" />

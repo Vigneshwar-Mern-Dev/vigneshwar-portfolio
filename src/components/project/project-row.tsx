@@ -25,12 +25,6 @@ export function ProjectRow({ project, index }: { project: Project; index: number
         </ul>
         <div className="project-links">
           <a
-            href={project.githubUrl}
-            {...(project.githubUrl.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          >
-            View case study <ArrowUpRight />
-          </a>
-          <a
             href={project.liveUrl}
             {...(project.liveUrl.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
@@ -40,7 +34,7 @@ export function ProjectRow({ project, index }: { project: Project; index: number
             href={project.githubUrl}
             {...(project.githubUrl.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           >
-            GitHub <ArrowUpRight />
+            Source code <ArrowUpRight />
           </a>
         </div>
       </div>

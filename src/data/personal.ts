@@ -3,7 +3,7 @@ export const personal = {
   role: "Full-Stack Developer",
   location: "Erode, Tamil Nadu",
   email: "Vigneshwars.dev@gmail.com",
-  github: "https://github.com/Vigneshwar-Mem-Dev",
+  github: "https://github.com/Vigneshwar-Mern-Dev",
   linkedin: "https://www.linkedin.com/in/vigneshwar-s-371b90373/",
   resumeUrl: "/resume.pdf",
   availability: "Open to work · Full-time & Contract",

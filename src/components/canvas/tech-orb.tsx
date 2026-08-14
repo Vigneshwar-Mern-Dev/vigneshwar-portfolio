@@ -388,6 +388,14 @@ function TechOrbScene({ cursor }: OrbProps) {
       <group ref={groupRef}>
         <CoreSphere />
 
+        {/* Tech nodes with labels */}
+        {nodePositions.map((pos, i) => (
+          <GlowNode key={i} position={pos} label={TECH_LABELS[i]} index={i} />
+        ))}
+
+        {/* Connection lines between nearby nodes */}
+        <ConnectionLines nodePositions={nodePositions} />
+
         {/* Orbital rings */}
         <OrbitalRing radius={2.1} tilt={0.4} />
         <OrbitalRing radius={2.4} tilt={-0.7} />

@@ -65,23 +65,29 @@ export function AboutSection() {
 
           <div className="about-copy">
             <p className="about-lead">
-              I&apos;m Vigneshwar S, a full-stack developer from Erode, Tamil Nadu,
-              focused on building CRM systems, automation platforms and modern
-              web applications.
+              I&apos;m Vigneshwar S — I think in systems, not screens.
             </p>
 
             <p>
-              I gained hands-on experience at MAKT Solutions Pvt. Ltd., where I
-              worked on CRM software, WhatsApp automation, AI-assisted
-              workflows, and internal business applications. I enjoy converting
-              complex business processes into reliable software.
+              Based in Erode, Tamil Nadu, I got serious about software when I
+              realised I could turn messy business workflows into clean,
+              automated systems. My time at MAKT Solutions taught me that
+              the hardest problems aren&apos;t technical — they&apos;re understanding
+              what a business actually needs before writing a single line of code.
             </p>
 
             <p>
-              My primary stack includes React, Next.js, Node.js, TypeScript,
-              MongoDB and PostgreSQL. I enjoy building scalable applications,
-              improving system architecture and continuously learning modern
-              technologies.
+              I gravitate toward projects where I can own the full picture:
+              designing the data model, building the API layer, crafting the
+              frontend, and making sure the whole thing holds up under real
+              usage. I care about code that other developers can read six
+              months later without wanting to rewrite it.
+            </p>
+
+            <p>
+              Outside of work, I&apos;m usually exploring new frameworks, refining
+              my deployment workflows, or reverse-engineering products I
+              admire to understand why they feel so good to use.
             </p>
 
             <dl>

@@ -86,11 +86,6 @@ export function ProcessSection() {
                   <span className="text-[0.68rem] font-semibold tracking-[0.2em] text-[#A876FF]">
                     {step.number}
                   </span>
-
-                  <span className="text-[0.62rem] uppercase tracking-[0.16em] text-[#625B73]">
-                    {String(index + 1).padStart(2, "0")} /{" "}
-                    {String(processSteps.length).padStart(2, "0")}
-                  </span>
                 </div>
 
                 <div
