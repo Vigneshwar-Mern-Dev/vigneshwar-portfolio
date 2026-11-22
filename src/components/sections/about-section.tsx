@@ -1,127 +1,198 @@
-import { ArrowUpRight } from "@/components/ui/icons";
-import { SectionHeading } from "@/components/ui/section-heading";
+"use client";
+
+import { useState } from "react";
 import { personal } from "@/data/personal";
 import { GlowingLine } from "@/components/ui/glowing-line";
+import {
+  User,
+  MapPin,
+  Mail,
+  Copy,
+  Check,
+  ArrowUpRight,
+  FileText,
+} from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 
 export function AboutSection() {
-  const details = [
-    ["Location", personal.location],
-    ["Availability", personal.availability],
-    ["Email", personal.email],
-  ];
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(personal.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section
       id="about"
-      className="section section-about relative overflow-hidden"
       aria-labelledby="about-heading"
+      className="relative scroll-mt-24 py-20 sm:py-28 overflow-hidden"
     >
-      {/* Background Decoration */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        {/* Large section number */}
-        <span className="absolute right-[5%] top-[-60px] font-mono text-[240px] font-bold leading-none tracking-[-0.08em] text-white/[0.025]">
-          05
-        </span>
+        className="pointer-events-none absolute top-1/3 right-10 w-[500px] h-[500px] bg-violet-600/10 blur-[150px] rounded-full"
+      />
 
-        {/* Glow */}
-        <div className="absolute left-[-120px] top-24 h-80 w-80 rounded-full bg-violet-500/10 blur-[140px]" />
-        <div className="absolute right-[-100px] bottom-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-[140px]" />
-
-        {/* Lines */}
-        <div className="absolute right-[8%] top-[26%] h-px w-[42%] rotate-[-6deg] bg-gradient-to-r from-transparent via-violet-400/30 to-transparent" />
-
-        <div className="absolute right-[18%] top-[54%] h-px w-[30%] rotate-[5deg] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-        {/* Nodes */}
-        <span className="absolute right-[39%] top-[25%] h-2 w-2 rotate-45 bg-violet-400 shadow-[0_0_18px_rgba(168,118,255,.8)]" />
-
-        <span className="absolute right-[19%] top-[52%] h-2 w-2 rotate-45 bg-cyan-400 shadow-[0_0_18px_rgba(114,231,255,.8)]" />
-
-        {/* Label */}
-        <div className="absolute right-[7%] top-[12%] flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-white/20">
-          <span>Personal Profile</span>
-          <span className="h-px w-8 bg-white/10" />
-          <span>ABOUT-05</span>
-        </div>
-      </div>
-
-      <div className="page-shell relative z-10">
-        <SectionHeading
-          index="05"
-          eyebrow="About"
-          title="Building practical software for real business problems."
-        />
-        <GlowingLine className="my-8" />
-
-        <div className="about-layout">
-          <div className="about-monogram" aria-hidden="true">
-            <span>V</span>
-            <span>S</span>
-            <i>FULL / STACK</i>
+      <div className="page-shell relative z-10 w-full">
+        <div className="max-w-3xl mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-950/30 text-violet-300 text-xs font-mono font-medium mb-4">
+            <User className="w-3.5 h-3.5" />
+            <span>05 // PROFILE & PHILOSOPHY</span>
           </div>
 
-          <div className="about-copy">
-            <p className="about-lead">
-              I&apos;m Vigneshwar S — I think in systems, not screens.
-            </p>
+          <h2
+            id="about-heading"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4 text-balance"
+          >
+            I think in <span className="gradient-text-violet">systems</span>, not just screens.
+          </h2>
 
-            <p>
-              Based in Erode, Tamil Nadu, I got serious about software when I
-              realised I could turn messy business workflows into clean,
-              automated systems. My time at MAKT Solutions taught me that
-              the hardest problems aren&apos;t technical — they&apos;re understanding
-              what a business actually needs before writing a single line of code.
-            </p>
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            Building software with a relentless focus on business utility, clean architecture, and long-term maintainability.
+          </p>
+        </div>
 
-            <p>
-              I gravitate toward projects where I can own the full picture:
-              designing the data model, building the API layer, crafting the
-              frontend, and making sure the whole thing holds up under real
-              usage. I care about code that other developers can read six
-              months later without wanting to rewrite it.
-            </p>
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-5 space-y-6">
+            <div className="glass-panel p-8 text-center flex flex-col items-center justify-center border border-white/10 relative overflow-hidden">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-radial from-violet-600/20 via-transparent to-transparent opacity-50"
+              />
 
-            <p>
-              Outside of work, I&apos;m usually exploring new frameworks, refining
-              my deployment workflows, or reverse-engineering products I
-              admire to understand why they feel so good to use.
-            </p>
-
-            <dl>
-              {details.map(([label, value]) => (
-                <div key={label}>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
+              <div className="relative mb-6">
+                <div className="h-28 w-28 rounded-3xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center shadow-[0_0_40px_rgba(139,92,246,0.5)] border border-violet-400/40">
+                  <span className="text-4xl font-extrabold font-mono text-white tracking-tighter">
+                    VS
+                  </span>
                 </div>
-              ))}
-            </dl>
+                <span className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500 text-black shadow-md">
+                  DEV
+                </span>
+              </div>
 
-            <div className="about-links">
-              <a
-                href={personal.github}
-                target="_blank"
-                rel="noreferrer"
+              <h3 className="text-2xl font-bold text-white mb-1">
+                {personal.name}
+              </h3>
+              <p className="text-sm text-violet-400 font-medium mb-4">
+                {personal.role}
+              </p>
+
+              <div className="flex items-center gap-2 text-xs text-slate-400 mb-6 font-mono">
+                <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                <span>{personal.location}</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5 w-full pt-6 border-t border-white/10 text-left">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div className="text-[10px] font-mono uppercase text-slate-500">Degree</div>
+                  <div className="text-xs font-semibold text-white mt-0.5">B.Sc Information Tech</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div className="text-[10px] font-mono uppercase text-slate-500">Focus</div>
+                  <div className="text-xs font-semibold text-white mt-0.5">SaaS & Full-Stack MERN</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div className="text-[10px] font-mono uppercase text-slate-500">Languages</div>
+                  <div className="text-xs font-semibold text-white mt-0.5">English, Tamil</div>
+                </div>
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                  <div className="text-[10px] font-mono uppercase text-slate-500">Status</div>
+                  <div className="text-xs font-semibold text-emerald-400 mt-0.5">Available Now</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-panel p-5 border border-white/10 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 overflow-hidden">
+                <div className="h-10 w-10 shrink-0 rounded-xl bg-violet-600/20 border border-violet-400/20 flex items-center justify-center text-violet-300">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div className="truncate">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500">Direct Email</div>
+                  <div className="text-xs font-medium text-white truncate">{personal.email}</div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 hover:bg-white/15 text-white transition-colors"
+                aria-label="Copy email address"
               >
-                GitHub <ArrowUpRight />
-              </a>
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-emerald-400">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Copy</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
 
-              <a
-                href={personal.linkedin}
-                target="_blank"
-                rel="noreferrer"
-              >
-                LinkedIn <ArrowUpRight />
-              </a>
+          <div className="lg:col-span-7 space-y-6">
+            <div className="glass-panel p-6 sm:p-8 space-y-5 text-sm sm:text-base text-slate-300 leading-relaxed border border-white/10">
+              <p className="text-lg sm:text-xl font-medium text-white leading-relaxed">
+                I discovered my passion for software engineering when I realized that messy, manual business operations could be turned into clean, automated digital systems.
+              </p>
 
-              <a href={personal.resumeUrl} download>
-                Resume <ArrowUpRight />
-              </a>
+              <p>
+                My professional experience at <span className="text-violet-300 font-semibold">MAKT Solutions</span> proved that the greatest engineering challenge is never just writing code — it&apos;s thoroughly understanding what the business and end-user genuinely require before typing a single character.
+              </p>
+
+              <p>
+                I thrive when owning end-to-end responsibilities: architecting the data schema, building high-throughput REST APIs, crafting pixel-perfect, accessible React interfaces, and ensuring the application holds up under real operational pressure.
+              </p>
+
+              <p>
+                I prioritize code readability and maintainability. When other engineers review my pull requests, they find clear patterns, strict TypeScript types, and comprehensive architecture.
+              </p>
+
+              <div className="pt-6 border-t border-white/10 flex flex-wrap gap-4">
+                <a
+                  href={personal.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                >
+                  <GithubIcon className="w-3.5 h-3.5" />
+                  <span>GitHub Profile</span>
+                  <ArrowUpRight className="w-3 h-3 text-slate-400" />
+                </a>
+
+                <a
+                  href={personal.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                >
+                  <LinkedinIcon className="w-3.5 h-3.5 text-blue-400" />
+                  <span>LinkedIn Network</span>
+                  <ArrowUpRight className="w-3 h-3 text-slate-400" />
+                </a>
+
+                <a
+                  href={personal.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold text-white bg-violet-600 hover:bg-violet-500 transition-colors"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Download Resume PDF</span>
+                  <ArrowUpRight className="w-3 h-3 text-white/80" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
+
+        <GlowingLine className="mt-20" />
       </div>
     </section>
   );

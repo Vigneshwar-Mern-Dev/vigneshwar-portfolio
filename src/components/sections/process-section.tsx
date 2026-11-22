@@ -1,133 +1,95 @@
-import { SectionHeading } from "@/components/ui/section-heading";
 import { processSteps } from "@/data/skills";
 import { GlowingLine } from "@/components/ui/glowing-line";
+import {
+  GitCommit,
+  Search,
+  LayoutTemplate,
+  Cpu,
+  CheckCheck,
+  Rocket,
+  Sparkles,
+} from "lucide-react";
 
 export function ProcessSection() {
+  const stepIcons: Record<string, React.ReactNode> = {
+    "01": <Search className="w-5 h-5 text-violet-400" />,
+    "02": <LayoutTemplate className="w-5 h-5 text-cyan-400" />,
+    "03": <Cpu className="w-5 h-5 text-emerald-400" />,
+    "04": <CheckCheck className="w-5 h-5 text-amber-400" />,
+    "05": <Rocket className="w-5 h-5 text-violet-300" />,
+  };
+
   return (
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="relative isolate scroll-mt-24 overflow-hidden bg-[#070414] py-14 text-[#F7F5FF] sm:py-16 lg:py-20"
+      className="relative scroll-mt-24 py-20 sm:py-28 overflow-hidden"
     >
-      {/* Grid: visible on the right and fading toward the centre */}
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none absolute right-0 top-0 h-full w-[78%] opacity-70
-          [background-image:linear-gradient(rgba(168,118,255,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(168,118,255,0.055)_1px,transparent_1px)]
-          [background-size:48px_48px]
-          [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.35)_32%,black_65%,black_100%)]
-        "
+        className="pointer-events-none absolute top-10 right-1/4 w-[500px] h-[500px] bg-violet-600/10 blur-[150px] rounded-full"
       />
 
-      {/* Right-side violet glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[-10%] top-[5%] h-[720px] w-[720px] rounded-full bg-[#7C3CFF]/12 blur-[150px]"
-      />
+      <div className="page-shell relative z-10 w-full">
+        <div className="max-w-3xl mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-950/30 text-violet-300 text-xs font-mono font-medium mb-4">
+            <GitCommit className="w-3.5 h-3.5" />
+            <span>03 // SYSTEM METHODOLOGY</span>
+          </div>
 
-      {/* Small cyan highlight */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[16%] top-[30%] h-64 w-64 rounded-full bg-[#72E7FF]/5 blur-[120px]"
-      />
+          <h2
+            id="process-heading"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4 text-balance"
+          >
+            A clear path from idea to{" "}
+            <span className="gradient-text-violet">production release</span>.
+          </h2>
 
-      {/* Fade the grid at the top and bottom */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#070414_0%,transparent_18%,transparent_80%,#070414_100%)]"
-      />
-
-      {/* Strengthen the clean left side */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#070414_0%,#070414_23%,transparent_65%)]"
-      />
-
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 xl:px-16">
-        {/* Heading */}
-        <div id="process-heading" className="pb-10 sm:pb-12 lg:pb-16">
-          <SectionHeading
-            index="03"
-            eyebrow="Development process"
-            title="A clear path from ambiguity to production."
-            description="A structured workflow that keeps product goals, engineering quality and delivery aligned from the first decision to release."
-          />
-          <GlowingLine className="mt-8" />
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            Eliminating guesswork with a structured engineering lifecycle that delivers reliable software on time.
+          </p>
         </div>
 
-        {/* Process steps */}
-        <ol className="mt-10 grid gap-px overflow-hidden rounded-[28px] border border-white/[0.09] bg-white/[0.09] sm:mt-12 md:grid-cols-2 lg:mt-14 xl:grid-cols-5">
-          {processSteps.map((step, index) => (
-            <li
-              key={step.number}
-              className="
-                group relative min-h-[300px] bg-[#0B0719]/90 p-7
-                backdrop-blur-sm transition-colors duration-300
-                hover:bg-[#120A29]/95
-                sm:p-8 lg:min-h-[340px]
-              "
-            >
-              {/* Hover glow */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 relative">
+          {processSteps.map((step, index) => {
+            const icon = stepIcons[step.number] || <Sparkles className="w-5 h-5 text-violet-400" />;
+
+            return (
               <div
-                aria-hidden="true"
-                className="
-                  pointer-events-none absolute inset-x-0 top-0 h-px
-                  origin-left scale-x-0 bg-gradient-to-r
-                  from-[#7C3CFF] via-[#A876FF] to-transparent
-                  transition-transform duration-500
-                  group-hover:scale-x-100
-                  motion-reduce:transition-none
-                "
-              />
+                key={step.number}
+                className="glass-panel p-6 sm:p-7 flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-300 group relative border border-white/10 hover:border-violet-500/40"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 group-hover:scale-110 group-hover:border-violet-500/30 transition-transform">
+                      {icon}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-violet-400/80 group-hover:text-violet-300 transition-colors">
+                      {step.number}
+                    </span>
+                  </div>
 
-              <div className="flex h-full flex-col">
-                <div className="flex items-center justify-between">
-                  <span className="text-[0.68rem] font-semibold tracking-[0.2em] text-[#A876FF]">
-                    {step.number}
-                  </span>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-3 group-hover:text-violet-300 transition-colors">
+                    {step.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
 
-                <div
-                  aria-hidden="true"
-                  className="
-                    mt-8 h-10 w-10 rounded-full border
-                    border-[#A876FF]/20 bg-[#7C3CFF]/5
-                    transition duration-300
-                    group-hover:border-[#A876FF]/55
-                    group-hover:bg-[#7C3CFF]/15
-                    group-hover:shadow-[0_0_30px_rgba(124,60,255,0.18)]
-                    motion-reduce:transition-none
-                  "
-                >
-                  <span className="grid h-full w-full place-items-center text-xs text-[#A876FF]">
-                    {String(index + 1).padStart(2, "0")}
+                <div className="pt-6 mt-6 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                  <span>Phase {index + 1} of 5</span>
+                  <span className="group-hover:translate-x-1 transition-transform text-violet-400">
+                    →
                   </span>
-                </div>
-
-                <h3 className="mt-10 text-2xl font-semibold tracking-[-0.035em] text-[#F7F5FF] lg:text-[1.7rem]">
-                  {step.title}
-                </h3>
-
-                <p className="mt-4 text-sm leading-7 text-[#AAA5BD]">
-                  {step.description}
-                </p>
-
-                <div className="mt-auto pt-10">
-                  <span
-                    aria-hidden="true"
-                    className="
-                      block h-px w-8 bg-[#A876FF]/25
-                      transition-all duration-300
-                      group-hover:w-16 group-hover:bg-[#A876FF]/70
-                      motion-reduce:transition-none
-                    "
-                  />
                 </div>
               </div>
-            </li>
-          ))}
-        </ol>
+            );
+          })}
+        </div>
+
+        <GlowingLine className="mt-20" />
       </div>
     </section>
   );

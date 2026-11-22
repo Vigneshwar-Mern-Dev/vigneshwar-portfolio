@@ -12,7 +12,6 @@ import { ProjectsSection } from "@/components/sections/projects-section";
 export default function Home() {
   return (
     <>
-      <a className="skip-link" href="#main-content">Skip to content</a>
       <CinematicIntro />
       <Navigation />
       <main id="main-content">

@@ -2,117 +2,64 @@
 
 import { useEffect, useRef } from "react";
 
-const TRAIL_LENGTH = 12; // number of trailing dots
-const DOT_SIZE = 6;      // px — size of the lead dot
-
 /**
- * CursorTrail
- * A small white lead dot + a comet tail of smaller fading dots
- * that follow the cursor. Zero React state, pure rAF DOM mutation.
+ * Ambient Cursor Glow
+ * Creates a subtle, elegant ambient light following the mouse on desktop without
+ * hiding the native cursor or incurring lag.
  */
 export function CursorGlow() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const dotsRef = useRef<HTMLDivElement[]>([]);
-  const historyRef = useRef<{ x: number; y: number }[]>(
-    Array.from({ length: TRAIL_LENGTH }, () => ({ x: -100, y: -100 })),
-  );
-  const mouseRef = useRef({ x: -100, y: -100 });
-  const rafRef = useRef<number | null>(null);
-  const isVisible = useRef(false);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    /* Build dots once into the container */
-    const container = containerRef.current;
-    if (!container) return;
-
-    const dots: HTMLDivElement[] = [];
-
-    for (let i = 0; i < TRAIL_LENGTH; i++) {
-      const el = document.createElement("div");
-      // Lead dot (i=0) is largest & brightest; tail dots shrink & fade
-      const progress = i / (TRAIL_LENGTH - 1); // 0 = lead, 1 = tail end
-      const size = Math.round(DOT_SIZE * (1 - progress * 0.65));
-      const opacity = 1 - progress * 0.85;
-
-      Object.assign(el.style, {
-        position: "absolute",
-        left: "0px",
-        top: "0px",
-        width: `${size}px`,
-        height: `${size}px`,
-        borderRadius: "50%",
-        // Lead = white, tail fades to purple
-        background:
-          i === 0
-            ? "#ffffff"
-            : `rgba(${Math.round(168 - (168 - 124) * progress)}, ${Math.round(118 - (118 - 60) * progress)}, 255, ${opacity})`,
-        boxShadow:
-          i === 0
-            ? "0 0 6px rgba(255,255,255,0.9), 0 0 12px rgba(168,118,255,0.6)"
-            : "none",
-        opacity: "0",
-        willChange: "transform, opacity",
-        pointerEvents: "none",
-        transform: "translate(-100px, -100px)",
-        transition: "opacity 0.2s ease",
-      });
-
-      container.appendChild(el);
-      dots.push(el);
+    // Only run on desktop with fine pointers
+    if (typeof window === "undefined" || !window.matchMedia("(pointer: fine)").matches) {
+      return;
     }
 
-    dotsRef.current = dots;
+    const glow = glowRef.current;
+    if (!glow) return;
 
-    /* Track mouse */
-    const onMove = (e: PointerEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+    let mouseX = -200;
+    let mouseY = -200;
+    let currentX = -200;
+    let currentY = -200;
+    let rafId: number;
 
-      if (!isVisible.current) {
-        isVisible.current = true;
-        dots.forEach((d) => (d.style.opacity = "1"));
-      }
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      glow.style.opacity = "1";
     };
 
-    const onLeave = () => {
-      dots.forEach((d) => (d.style.opacity = "0"));
-      isVisible.current = false;
+    const onMouseLeave = () => {
+      glow.style.opacity = "0";
     };
 
-    window.addEventListener("pointermove", onMove, { passive: true });
-    document.addEventListener("mouseleave", onLeave);
+    const animate = () => {
+      // Smooth lerp follow
+      currentX += (mouseX - currentX) * 0.15;
+      currentY += (mouseY - currentY) * 0.15;
 
-    /* rAF loop — shift history array, position each dot */
-    const tick = () => {
-      const history = historyRef.current;
-
-      // Prepend current mouse pos into history
-      history.unshift({ x: mouseRef.current.x, y: mouseRef.current.y });
-      history.length = TRAIL_LENGTH; // keep fixed length
-
-      dots.forEach((dot, i) => {
-        const pos = history[i];
-        const size = parseInt(dot.style.width);
-        dot.style.transform = `translate(${pos.x - size / 2}px, ${pos.y - size / 2}px)`;
-      });
-
-      rafRef.current = requestAnimationFrame(tick);
+      glow.style.transform = `translate3d(${currentX - 150}px, ${currentY - 150}px, 0)`;
+      rafId = requestAnimationFrame(animate);
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    document.addEventListener("mouseleave", onMouseLeave);
+    rafId = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener("pointermove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      dots.forEach((d) => d.remove());
+      window.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseleave", onMouseLeave);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
     <div
-      ref={containerRef}
+      ref={glowRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden"
+      className="pointer-events-none fixed top-0 left-0 z-30 h-[300px] w-[300px] rounded-full bg-gradient-to-r from-violet-500/10 via-cyan-400/5 to-transparent blur-3xl opacity-0 transition-opacity duration-300 will-change-transform"
     />
   );
 }

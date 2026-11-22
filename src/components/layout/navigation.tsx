@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { personal } from "@/data/personal";
-import { CloseIcon, MenuIcon } from "@/components/ui/icons";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const links = [
   { label: "Home", href: "#home" },
   { label: "Work", href: "#work" },
   { label: "Skills", href: "#skills" },
+  { label: "Process", href: "#process" },
   { label: "Experience", href: "#experience" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
@@ -15,42 +17,37 @@ const links = [
 
 export function Navigation() {
   const [active, setActive] = useState("home");
-  const [compact, setCompact] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Navbar compact state and active-section tracking
   useEffect(() => {
     const handleScroll = () => {
-      setCompact(window.scrollY > window.innerHeight * 0.72);
+      setScrolled(window.scrollY > 40);
     };
 
-    const sections = links
+    const sectionElements = links
       .map(({ href }) => document.querySelector<HTMLElement>(href))
-      .filter((section): section is HTMLElement => Boolean(section));
+      .filter((el): el is HTMLElement => Boolean(el));
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visibleSection = entries
+        const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-        if (visibleSection) {
-          setActive(visibleSection.target.id);
+        if (visible) {
+          setActive(visible.target.id);
         }
       },
       {
-        rootMargin: "-30% 0px -55%",
-        threshold: [0, 0.2, 0.5],
-      },
+        rootMargin: "-25% 0px -50%",
+        threshold: [0, 0.25, 0.5],
+      }
     );
 
     handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    sections.forEach((section) => observer.observe(section));
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    sectionElements.forEach((el) => observer.observe(el));
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -58,140 +55,133 @@ export function Navigation() {
     };
   }, []);
 
-  // Close mobile navigation using Escape
-  useEffect(() => {
-    if (!open) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [open]);
-
-  // Close mobile navigation when desktop layout becomes active
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const handleNavigationClick = (sectionId: string) => {
-    setActive(sectionId);
-    setOpen(false);
+  const handleNavClick = (id: string) => {
+    setActive(id);
+    setMobileOpen(false);
   };
 
   return (
-    <header
-      className={`nav-shell ${compact ? "is-compact" : ""}`}
-      data-menu-open={open}
-    >
-      <nav className="site-nav" aria-label="Primary navigation">
+    <header className="fixed top-4 sm:top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+      <nav
+        aria-label="Primary Navigation"
+        className={`pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 py-2.5 rounded-full border transition-all duration-300 site-nav-bar ${
+          scrolled
+            ? "scrolled-nav"
+            : "unscrolled-nav"
+        }`}
+      >
+        {/* Monogram Brand */}
         <a
           href="#home"
-          className="nav-mark"
-          aria-label="Vigneshwar S — Home"
-          onClick={() => handleNavigationClick("home")}
+          onClick={() => handleNavClick("home")}
+          className="group flex items-center gap-2 font-bold tracking-tight text-white hover:text-violet-300 transition-colors"
+          aria-label="Vigneshwar S - Home"
         >
-          VS<span aria-hidden="true">.</span>
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 text-xs font-mono font-bold text-white shadow-[0_0_12px_rgba(139,92,246,0.5)] group-hover:scale-105 transition-transform">
+            VS
+          </span>
+          <span className="text-sm tracking-tight font-medium hidden sm:inline nav-brand-text">
+            Vigneshwar<span className="text-violet-400">.dev</span>
+          </span>
         </a>
 
-        <div className="nav-links" aria-label="Page sections">
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center gap-1">
           {links.map((link) => {
-            const sectionId = link.href.slice(1);
-            const isActive = active === sectionId;
+            const id = link.href.slice(1);
+            const isActive = active === id;
 
             return (
               <a
                 key={link.href}
                 href={link.href}
-                className={isActive ? "is-active" : undefined}
-                aria-current={isActive ? "page" : undefined}
-                onClick={() => handleNavigationClick(sectionId)}
+                onClick={() => handleNavClick(id)}
+                className={`relative px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 nav-link-item ${
+                  isActive
+                    ? "is-active text-white bg-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                }`}
               >
                 {link.label}
+                {isActive && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-3 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8]" />
+                )}
               </a>
             );
           })}
         </div>
 
-        <a
-          className="nav-resume"
-          href={personal.resumeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View Vigneshwar S resume in a new tab"
-        >
-          Resume
-          <span aria-hidden="true">↗</span>
-        </a>
+        {/* Actions: Theme Toggle & Resume */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
 
-        <button
-          className="nav-menu-button"
-          type="button"
-          onClick={() => setOpen((currentValue) => !currentValue)}
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-          aria-label={open ? "Close navigation" : "Open navigation"}
-        >
-          {open ? <CloseIcon /> : <MenuIcon />}
-        </button>
+          <a
+            href={personal.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_28px_rgba(139,92,246,0.6)] hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <span>Resume</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+
+          {/* Mobile Menu Trigger */}
+          <button
+            type="button"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="md:hidden flex items-center justify-center h-8 w-8 rounded-full border border-white/10 bg-white/5 text-slate-300 hover:text-white"
+          >
+            {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
       </nav>
 
-      <div
-        id="mobile-navigation"
-        className={`mobile-navigation ${open ? "is-open" : ""}`}
-        aria-label="Mobile navigation"
-        aria-hidden={!open}
-      >
-        {links.map((link, index) => {
-          const sectionId = link.href.slice(1);
-          const isActive = active === sectionId;
-
-          return (
+      {/* Mobile Drawer Dropdown */}
+      {mobileOpen && (
+        <div className="pointer-events-auto absolute top-16 inset-x-4 max-w-sm mx-auto glass-panel p-4 flex flex-col gap-1 border border-violet-500/30 animate-in fade-in slide-in-from-top-3 duration-200 shadow-2xl">
+          <div className="text-[10px] uppercase font-mono tracking-wider text-slate-500 px-3 py-1 flex items-center justify-between">
+            <span>Navigation Menu</span>
+            <ThemeToggle className="scale-90" />
+          </div>
+          {links.map((link) => {
+            const id = link.href.slice(1);
+            const isActive = active === id;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => handleNavClick(id)}
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-violet-600/20 text-violet-300 border border-violet-500/30"
+                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <span>{link.label}</span>
+                {isActive && <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />}
+              </a>
+            );
+          })}
+          <div className="pt-2 mt-1 border-t border-white/10 flex gap-2">
             <a
-              key={link.href}
-              href={link.href}
-              className={isActive ? "is-active" : undefined}
-              aria-current={isActive ? "page" : undefined}
-              tabIndex={open ? 0 : -1}
-              onClick={() => handleNavigationClick(sectionId)}
+              href={`mailto:${personal.email}`}
+              className="flex-1 text-center py-2 rounded-xl text-xs font-semibold bg-white/10 text-white hover:bg-white/15"
             >
-              <span aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-
-              {link.label}
+              Email Me
             </a>
-          );
-        })}
-
-        <a
-          href={personal.resumeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          tabIndex={open ? 0 : -1}
-          onClick={() => setOpen(false)}
-        >
-          <span aria-hidden="true">06</span>
-          View resume
-          <span aria-hidden="true">↗</span>
-        </a>
-      </div>
+            <a
+              href={personal.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 text-center py-2 rounded-xl text-xs font-semibold bg-violet-600 text-white hover:bg-violet-500 flex items-center justify-center gap-1"
+            >
+              <span>Resume</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
